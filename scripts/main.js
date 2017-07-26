@@ -7,10 +7,12 @@ var lastStarted = "O";
 var xscore = 0;
 var oscore = 0;
 var won = false;
+var steps = 0;
 
 function reset() {
 	context.fillStyle = "black";
 	won = false;
+	steps = 0;
 	context.fillRect(0, 0, 450, 450);
 	grid = [["","",""],["","",""],["","",""]];
 	if (lastStarted == "X") {
@@ -55,6 +57,7 @@ function move(event) {
 	var y = Math.floor(event.offsetY / cellSize);
 	if (grid[x][y] == "" && !won) {
 		grid[x][y] = who;
+		steps += 1;
 		if (grid[0][0] == who && grid[0][1] == who && grid[0][2] == who || 
 			grid[1][0] == who && grid[1][1] == who && grid[1][2] == who || 
 			grid[2][0] == who && grid[2][1] == who && grid[2][2] == who || 
@@ -78,5 +81,8 @@ function move(event) {
 			who = "X";
 		}
 		drawBoard();
+	}
+	if (steps >= 9) {
+		setTimeout(reset, 1000);
 	}
 }
